@@ -11,8 +11,19 @@ createRoot(document.getElementById('root')!).render(
           width: 100%;
           height: 100vh;
           margin: 0;
-          background-color: #ffffff;
+          background-color: #070c25;
           font-size: 16px;
+          font-family:
+            ui-sans-serif,
+            -apple-system,
+            system-ui,
+            Segoe UI,
+            Helvetica,
+            Apple Color Emoji,
+            Arial,
+            sans-serif,
+            Segoe UI Emoji,
+            Segoe UI Symbol;
         }
 
         h1,
