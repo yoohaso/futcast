@@ -1,6 +1,12 @@
 import { css } from '@emotion/react';
 
-function DayCard() {
+type DayCardProps = {
+  date: string;
+  fieldName: string;
+  startTime: string;
+};
+
+function DayCard({ date, fieldName, startTime }: DayCardProps) {
   return (
     <div
       css={css({
@@ -16,9 +22,9 @@ function DayCard() {
     >
       <div css={css({ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '25px 0' })}>
         <div css={css({ display: 'flex', flexDirection: 'column', gap: '4px' })}>
-          <span css={css({ display: 'block', fontWeight: 'bold' })}>1월 7일 (화)</span>
-          <span css={css({ display: 'block', fontSize: '15px' })}>서울 송파 천마 풋살파크 1구장</span>
-          <span css={css({ display: 'block', fontSize: '18px', fontWeight: 'bold' })}>20시</span>
+          <span css={css({ display: 'block', fontWeight: 'bold' })}>{date}</span>
+          <span css={css({ display: 'block', fontSize: '15px' })}>{fieldName}</span>
+          <span css={css({ display: 'block', fontSize: '18px', fontWeight: 'bold' })}>{startTime}</span>
         </div>
         <div
           css={css({

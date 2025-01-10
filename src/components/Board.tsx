@@ -4,7 +4,7 @@ import OtherDaysArea from './OtherDaysArea';
 import useMatches from '../hooks/useMatches';
 
 function Board() {
-  const [, isLoading] = useMatches();
+  const [matches, isLoading] = useMatches();
 
   return (
     <div
@@ -18,9 +18,9 @@ function Board() {
     >
       {!isLoading && (
         <>
-          <CurrentDayArea />
+          <CurrentDayArea match={matches[0]} />
           <hr css={css({ width: '100%', border: '1px solid white' })} />
-          <OtherDaysArea />
+          <OtherDaysArea matches={matches.slice(1, matches.length)} />
         </>
       )}
     </div>
