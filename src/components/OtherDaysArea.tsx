@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import DayCard from './DayCard';
 import { Match } from '../api/types';
+import { formatDate, formatTime } from '../utils';
 
 type OtherDaysAreaProps = {
   matches: Match[];
@@ -17,7 +18,12 @@ function OtherDaysArea({ matches }: OtherDaysAreaProps) {
       })}
     >
       {matches.map(match => (
-        <DayCard key={match.id} date={match.schedule} fieldName={match.field.name} startTime={match.schedule} />
+        <DayCard
+          key={match.id}
+          date={formatDate(match.schedule)}
+          fieldName={match.field.name}
+          startTime={formatTime(match.schedule)}
+        />
       ))}
     </div>
   );
