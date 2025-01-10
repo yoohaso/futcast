@@ -1,8 +1,11 @@
 import { css } from '@emotion/react';
 import CurrentDayArea from './CurrentDayArea';
 import OtherDaysArea from './OtherDaysArea';
+import useMatches from '../hooks/useMatches';
 
 function Board() {
+  const [, isLoading] = useMatches();
+
   return (
     <div
       css={css({
@@ -13,9 +16,13 @@ function Board() {
         padding: '0 15px 2vh 15px',
       })}
     >
-      <CurrentDayArea />
-      <hr css={css({ width: '100%', border: '1px solid white' })} />
-      <OtherDaysArea />
+      {!isLoading && (
+        <>
+          <CurrentDayArea />
+          <hr css={css({ width: '100%', border: '1px solid white' })} />
+          <OtherDaysArea />
+        </>
+      )}
     </div>
   );
 }
