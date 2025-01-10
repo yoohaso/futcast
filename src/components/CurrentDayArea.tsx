@@ -1,7 +1,12 @@
 import { css } from '@emotion/react';
 import DayCard from './DayCard';
+import { Match } from '../api/types';
 
-function CurrentDayArea() {
+type CurrentDayAreaProps = {
+  match: Match;
+};
+
+function CurrentDayArea({ match }: CurrentDayAreaProps) {
   return (
     <div
       css={css({
@@ -10,7 +15,7 @@ function CurrentDayArea() {
       })}
     >
       <h2 css={css({ padding: '10px 0', fontSize: '1rem', color: '#ffffff' })}>오늘</h2>
-      <DayCard />
+      <DayCard date={match.schedule} fieldName={match.field.name} startTime={match.schedule} />
     </div>
   );
 }
