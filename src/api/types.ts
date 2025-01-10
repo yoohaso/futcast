@@ -6,6 +6,7 @@ type Base = {
 
 type Field = {
   id: number;
+  name: string;
   address: string;
   weatherLink: string;
   gridX: number;
