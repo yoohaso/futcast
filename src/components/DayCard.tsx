@@ -20,10 +20,29 @@ function DayCard({ date, fieldName, startTime }: DayCardProps) {
         padding: '0 20px',
       })}
     >
-      <div css={css({ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '25px 0' })}>
+      <div
+        css={css({
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          padding: '25px 0',
+          flex: 2,
+          minWidth: 0,
+        })}
+      >
         <div css={css({ display: 'flex', flexDirection: 'column', gap: '4px' })}>
           <span css={css({ display: 'block', fontWeight: 'bold' })}>{date}</span>
-          <span css={css({ display: 'block', fontSize: '15px' })}>{fieldName}</span>
+          <span
+            css={css({
+              display: 'block',
+              fontSize: '15px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            })}
+          >
+            {fieldName}
+          </span>
           <span css={css({ display: 'block', fontSize: '18px', fontWeight: 'bold' })}>{startTime}</span>
         </div>
         <div
@@ -46,6 +65,7 @@ function DayCard({ date, fieldName, startTime }: DayCardProps) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          flex: 1,
         })}
       >
         <img src="https://openweathermap.org/img/wn/10d@2x.png" />
