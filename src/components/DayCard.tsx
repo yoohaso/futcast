@@ -4,9 +4,10 @@ type DayCardProps = {
   date: string;
   fieldName: string;
   startTime: string;
+  temp?: string;
 };
 
-function DayCard({ date, fieldName, startTime }: DayCardProps) {
+function DayCard({ date, fieldName, startTime, temp }: DayCardProps) {
   return (
     <div
       css={css({
@@ -69,7 +70,7 @@ function DayCard({ date, fieldName, startTime }: DayCardProps) {
         })}
       >
         <img src="https://openweathermap.org/img/wn/10d@2x.png" />
-        <span css={css({ display: 'block', fontSize: '30px', fontWeight: 'bold' })}>21℃</span>
+        <span css={css({ display: 'block', fontSize: '30px', fontWeight: 'bold' })}>{temp ? `${temp}℃` : ''}</span>
       </div>
     </div>
   );

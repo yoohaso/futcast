@@ -1,13 +1,14 @@
 import { css } from '@emotion/react';
 import DayCard from './DayCard';
-import { Match } from '../api/types';
+import { Match, Weather } from '../api/types';
 import { formatDate, formatTime } from '../utils';
 
 type OtherDaysAreaProps = {
   matches: Match[];
+  weather: Weather[] | null;
 };
 
-function OtherDaysArea({ matches }: OtherDaysAreaProps) {
+function OtherDaysArea({ matches, weather }: OtherDaysAreaProps) {
   return (
     <div
       css={css({
@@ -17,12 +18,13 @@ function OtherDaysArea({ matches }: OtherDaysAreaProps) {
         gap: '2vh',
       })}
     >
-      {matches.map(match => (
+      {matches.map((match, index) => (
         <DayCard
           key={match.id}
           date={formatDate(match.schedule)}
           fieldName={match.field.name}
           startTime={formatTime(match.schedule)}
+          temp={weather && weather.length > 0 ? weather[index].temperature.value : undefined}
         />
       ))}
     </div>
