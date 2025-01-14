@@ -19,3 +19,14 @@ export type Match = {
   plabfootballLink: string | null;
   field: Field;
 } & Base;
+
+export type Location = { timestamp: string; gridX: number; gridY: number };
+
+export type Weather = {
+  temperature: { category: string; value: string };
+  skyCondition: { category: string; value: string };
+  precipitationType: { category: string; value: string };
+  precipitationProbability: { category: string; value: string };
+  precipitation: { category: string; value: string };
+  datetime: string;
+};
