@@ -22,10 +22,13 @@ export type Match = {
 
 export type Location = { timestamp: string; gridX: number; gridY: number };
 
+export type SkyCondition = '1' | '3' | '4';
+export type PrecipitationType = '0' | '1' | '2' | '3' | '4';
+
 export type Weather = {
   temperature: { category: string; value: string };
-  skyCondition: { category: string; value: string };
-  precipitationType: { category: string; value: string };
+  skyCondition: { category: string; value: SkyCondition };
+  precipitationType: { category: string; value: PrecipitationType };
   precipitationProbability: { category: string; value: string };
   precipitation: { category: string; value: string };
   datetime: string;
