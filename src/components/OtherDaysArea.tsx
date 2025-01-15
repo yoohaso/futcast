@@ -30,6 +30,7 @@ function OtherDaysArea({ matches, weather }: OtherDaysAreaProps) {
             temp={matchWeather?.temperature.value}
             skyCondition={matchWeather?.skyCondition.value}
             precipitationType={matchWeather?.precipitationType.value}
+            precipitationProbability={matchWeather?.precipitationProbability.value}
           />
         );
       })}
