@@ -8,6 +8,7 @@ type DayCardProps = {
   temp?: string;
   skyCondition?: SkyCondition;
   precipitationType?: PrecipitationType;
+  precipitationProbability?: string;
 };
 
 function getWeatherIconSrc(skyCondition: SkyCondition, precipitationType: PrecipitationType) {
@@ -28,7 +29,15 @@ function getWeatherIconSrc(skyCondition: SkyCondition, precipitationType: Precip
   return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
 }
 
-function DayCard({ date, fieldName, startTime, temp, skyCondition, precipitationType }: DayCardProps) {
+function DayCard({
+  date,
+  fieldName,
+  startTime,
+  temp,
+  skyCondition,
+  precipitationType,
+  precipitationProbability,
+}: DayCardProps) {
   return (
     <div
       css={css({
@@ -69,17 +78,17 @@ function DayCard({ date, fieldName, startTime, temp, skyCondition, precipitation
         </div>
         <div
           css={css({
-            width: '60px',
+            width: '90px',
             height: '30px',
-            backgroundColor: '#facc15',
-            textAlign: 'center',
+            backgroundColor: '#8cd2ee',
             borderRadius: '12px',
-            fontSize: '13px',
+            fontSize: '11px',
+            textAlign: 'center',
             alignContent: 'center',
             fontWeight: 'bold',
           })}
         >
-          주의
+          {precipitationProbability ? `강수 확률 ${precipitationProbability}%` : ''}
         </div>
       </div>
       <div
