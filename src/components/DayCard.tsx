@@ -1,13 +1,34 @@
 import { css } from '@emotion/react';
+import { PrecipitationType, SkyCondition } from '../api/types';
 
 type DayCardProps = {
   date: string;
   fieldName: string;
   startTime: string;
   temp?: string;
+  skyCondition?: SkyCondition;
+  precipitationType?: PrecipitationType;
 };
 
-function DayCard({ date, fieldName, startTime, temp }: DayCardProps) {
+function getWeatherIconSrc(skyCondition: SkyCondition, precipitationType: PrecipitationType) {
+  const skyConditionIcons: { [key: string]: string } = {
+    '1': '01d',
+    '3': '02d',
+    '4': '03d',
+  };
+
+  const precipitationTypeIcons: { [key: string]: string } = {
+    '1': '10d',
+    '2': '13d',
+    '3': '13d',
+    '4': '09d',
+  };
+
+  const iconCode = precipitationTypeIcons[precipitationType] || skyConditionIcons[skyCondition] || '';
+  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+}
+
+function DayCard({ date, fieldName, startTime, temp, skyCondition, precipitationType }: DayCardProps) {
   return (
     <div
       css={css({
@@ -69,7 +90,7 @@ function DayCard({ date, fieldName, startTime, temp }: DayCardProps) {
           flex: 1,
         })}
       >
-        <img src="https://openweathermap.org/img/wn/10d@2x.png" />
+        <img src={skyCondition && precipitationType ? getWeatherIconSrc(skyCondition, precipitationType) : ''} />
         <span css={css({ display: 'block', fontSize: '30px', fontWeight: 'bold' })}>{temp ? `${temp}℃` : ''}</span>
       </div>
     </div>
