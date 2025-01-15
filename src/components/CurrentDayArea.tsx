@@ -22,6 +22,8 @@ function CurrentDayArea({ match, weather }: CurrentDayAreaProps) {
         fieldName={match.field.name}
         startTime={formatTime(match.schedule)}
         temp={weather?.temperature.value}
+        skyCondition={weather?.skyCondition.value}
+        precipitationType={weather?.precipitationType.value}
       />
     </div>
   );

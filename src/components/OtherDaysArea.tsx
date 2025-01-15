@@ -18,15 +18,21 @@ function OtherDaysArea({ matches, weather }: OtherDaysAreaProps) {
         gap: '2vh',
       })}
     >
-      {matches.map((match, index) => (
-        <DayCard
-          key={match.id}
-          date={formatDate(match.schedule)}
-          fieldName={match.field.name}
-          startTime={formatTime(match.schedule)}
-          temp={weather && weather.length > 0 ? weather[index].temperature.value : undefined}
-        />
-      ))}
+      {matches.map(match => {
+        const matchWeather = weather?.find(ele => ele.datetime === match.schedule);
+
+        return (
+          <DayCard
+            key={match.id}
+            date={formatDate(match.schedule)}
+            fieldName={match.field.name}
+            startTime={formatTime(match.schedule)}
+            temp={matchWeather?.temperature.value}
+            skyCondition={matchWeather?.skyCondition.value}
+            precipitationType={matchWeather?.precipitationType.value}
+          />
+        );
+      })}
     </div>
   );
 }
