@@ -24,6 +24,7 @@ function CurrentDayArea({ match, weather }: CurrentDayAreaProps) {
         temp={weather?.temperature.value}
         skyCondition={weather?.skyCondition.value}
         precipitationType={weather?.precipitationType.value}
+        precipitationProbability={weather?.precipitationProbability.value}
       />
     </div>
   );
