@@ -1,13 +1,12 @@
 import { css } from '@emotion/react';
-import CurrentDayArea from './CurrentDayArea';
-import OtherDaysArea from './OtherDaysArea';
 import useMatches from '../hooks/useMatches';
 import { useMemo } from 'react';
 import useWeather from '../hooks/useWeather';
+import DayCard from './DayCard';
+import { formatDate, formatTime } from '../utils';
 
 function Board() {
   const [matches, isLoading] = useMatches();
-
   const locations = useMemo(
     () =>
       matches.map(match => ({
@@ -19,6 +18,10 @@ function Board() {
   );
 
   const [weather] = useWeather({ locations });
+
+  const upcomingMatch = matches?.[0];
+  const upcomitMatchWeather = weather?.[0];
+  const otherMatches = matches?.slice(1, matches.length);
 
   return (
     <div
@@ -32,12 +35,49 @@ function Board() {
     >
       {!isLoading && (
         <>
-          <CurrentDayArea match={matches[0]} weather={weather[0] ? weather[0] : null} />
+          <div
+            css={css({
+              width: 'inherit',
+              paddingBottom: '10px',
+            })}
+          >
+            <h2 css={css({ padding: '10px 0', fontSize: '1rem', color: '#ffffff' })}>오늘</h2>
+            <DayCard
+              date={formatDate(upcomingMatch!.schedule)}
+              fieldName={upcomingMatch!.field.name}
+              startTime={formatTime(upcomingMatch!.schedule)}
+              temp={upcomitMatchWeather?.temperature.value}
+              skyCondition={upcomitMatchWeather?.skyCondition.value}
+              precipitationType={upcomitMatchWeather?.precipitationType.value}
+              precipitationProbability={upcomitMatchWeather?.precipitationProbability.value}
+            />
+          </div>
           <hr css={css({ width: '100%', border: '1px solid white' })} />
-          <OtherDaysArea
-            matches={matches.slice(1, matches.length)}
-            weather={weather.slice(1, weather.length) ? weather.slice(1, weather.length) : null}
-          />
+          <div
+            css={css({
+              width: 'inherit',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2vh',
+            })}
+          >
+            {otherMatches.map(match => {
+              const matchWeather = weather?.find(ele => ele.datetime === match.schedule);
+
+              return (
+                <DayCard
+                  key={match.id}
+                  date={formatDate(match.schedule)}
+                  fieldName={match.field.name}
+                  startTime={formatTime(match.schedule)}
+                  temp={matchWeather?.temperature.value}
+                  skyCondition={matchWeather?.skyCondition.value}
+                  precipitationType={matchWeather?.precipitationType.value}
+                  precipitationProbability={matchWeather?.precipitationProbability.value}
+                />
+              );
+            })}
+          </div>
         </>
       )}
     </div>
