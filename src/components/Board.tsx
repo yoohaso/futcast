@@ -44,7 +44,7 @@ function Board() {
   const [weather] = useWeather({ locations });
 
   const upcomingMatch = matches?.[0];
-  const upcomitMatchWeather = weather?.[0];
+  const upcomingMatchWeather = weather?.[0];
   const otherMatches = matches?.slice(1, matches.length);
 
   const [showModal, setShowModal] = useState(false);
@@ -71,9 +71,9 @@ function Board() {
             <Clickable
               onClick={() =>
                 handleCardClick({
-                  temperature: upcomitMatchWeather?.temperature.value,
-                  precipitation: upcomitMatchWeather?.precipitation.value,
-                  precipitationProbability: upcomitMatchWeather?.precipitationProbability.value,
+                  temperature: upcomingMatchWeather?.temperature.value,
+                  precipitation: upcomingMatchWeather?.precipitation.value,
+                  precipitationProbability: upcomingMatchWeather?.precipitationProbability.value,
                   date: formatDate(upcomingMatch.schedule),
                   startTime: formatTime(upcomingMatch.schedule),
                   fieldName: upcomingMatch.field.name,
@@ -81,8 +81,8 @@ function Board() {
                   plabfootballLink: upcomingMatch.plabfootballLink,
                   weatherLink: upcomingMatch.field.weatherLink,
                   weatherIconSrc: getWeatherIconSrc(
-                    upcomitMatchWeather.skyCondition.value,
-                    upcomitMatchWeather.precipitationType.value
+                    upcomingMatchWeather.skyCondition.value,
+                    upcomingMatchWeather.precipitationType.value
                   ),
                 })
               }
@@ -91,10 +91,10 @@ function Board() {
                 date={formatDate(upcomingMatch!.schedule)}
                 fieldName={upcomingMatch!.field.name}
                 startTime={formatTime(upcomingMatch!.schedule)}
-                temp={upcomitMatchWeather?.temperature.value}
-                skyCondition={upcomitMatchWeather?.skyCondition.value}
-                precipitationType={upcomitMatchWeather?.precipitationType.value}
-                precipitationProbability={upcomitMatchWeather?.precipitationProbability.value}
+                temp={upcomingMatchWeather?.temperature.value}
+                skyCondition={upcomingMatchWeather?.skyCondition.value}
+                precipitationType={upcomingMatchWeather?.precipitationType.value}
+                precipitationProbability={upcomingMatchWeather?.precipitationProbability.value}
               />
             </Clickable>
             <hr css={css({ width: '100%', margin: '15px 0', border: '1px solid white' })} />
