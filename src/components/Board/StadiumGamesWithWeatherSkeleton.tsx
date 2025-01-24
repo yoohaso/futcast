@@ -14,9 +14,8 @@ export function StadiumGamesWithWeatherSkeleton({ matches }: StadiumGamesWithWea
   return (
     <>
       <DayCard
-        date={formatDate(upcomingMatch.schedule)}
-        fieldName={upcomingMatch.field.name}
-        startTime={formatTime(upcomingMatch.schedule)}
+        stadium={{ name: upcomingMatch.field.name }}
+        game={{ date: formatDate(upcomingMatch.schedule), startTime: formatTime(upcomingMatch.schedule) }}
       />
       <hr css={css({ width: '100%', margin: '15px 0', border: '1px solid white' })} />
       <div
@@ -31,9 +30,8 @@ export function StadiumGamesWithWeatherSkeleton({ matches }: StadiumGamesWithWea
           return (
             <DayCard
               key={match.id}
-              date={formatDate(match.schedule)}
-              fieldName={match.field.name}
-              startTime={formatTime(match.schedule)}
+              stadium={{ name: match.field.name }}
+              game={{ date: formatDate(match.schedule), startTime: formatTime(match.schedule) }}
             />
           );
         })}
