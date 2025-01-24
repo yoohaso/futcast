@@ -68,13 +68,14 @@ export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProp
         }
       >
         <DayCard
-          date={formatDate(upcomingMatch.schedule)}
-          fieldName={upcomingMatch.field.name}
-          startTime={formatTime(upcomingMatch.schedule)}
-          temp={upcomingMatchWeather.temperature.value}
-          skyCondition={upcomingMatchWeather.skyCondition.value}
-          precipitationType={upcomingMatchWeather.precipitationType.value}
-          precipitationProbability={upcomingMatchWeather.precipitationProbability.value}
+          stadium={{ name: upcomingMatch.field.name }}
+          game={{ date: formatDate(upcomingMatch.schedule), startTime: formatTime(upcomingMatch.schedule) }}
+          weather={{
+            temperature: upcomingMatchWeather.temperature.value,
+            skyCondition: upcomingMatchWeather.skyCondition.value,
+            precipitationType: upcomingMatchWeather.precipitationType.value,
+            precipitationProbability: upcomingMatchWeather.precipitationProbability.value,
+          }}
         />
       </Clickable>
       <hr css={css({ width: '100%', margin: '15px 0', border: '1px solid white' })} />
@@ -93,9 +94,8 @@ export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProp
             return (
               <DayCard
                 key={match.id}
-                date={formatDate(match.schedule)}
-                fieldName={match.field.name}
-                startTime={formatTime(match.schedule)}
+                stadium={{ name: match.field.name }}
+                game={{ date: formatDate(match.schedule), startTime: formatTime(match.schedule) }}
               />
             );
           }
@@ -121,13 +121,14 @@ export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProp
               }
             >
               <DayCard
-                date={formatDate(match.schedule)}
-                fieldName={match.field.name}
-                startTime={formatTime(match.schedule)}
-                temp={matchWeather.temperature.value}
-                skyCondition={matchWeather.skyCondition.value}
-                precipitationType={matchWeather.precipitationType.value}
-                precipitationProbability={matchWeather.precipitationProbability.value}
+                stadium={{ name: match.field.name }}
+                game={{ date: formatDate(match.schedule), startTime: formatTime(match.schedule) }}
+                weather={{
+                  temperature: matchWeather.temperature.value,
+                  skyCondition: matchWeather.skyCondition.value,
+                  precipitationType: matchWeather.precipitationType.value,
+                  precipitationProbability: matchWeather.precipitationProbability.value,
+                }}
               />
             </Clickable>
           );
