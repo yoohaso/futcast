@@ -3,24 +3,22 @@ import { PrecipitationType, SkyCondition } from '../api/types';
 import { getWeatherIconSrc } from '../utils';
 
 type DayCardProps = {
-  date: string;
-  fieldName: string;
-  startTime: string;
-  temp?: string;
-  skyCondition?: SkyCondition;
-  precipitationType?: PrecipitationType;
-  precipitationProbability?: string;
+  stadium: {
+    name: string;
+  };
+  game: {
+    date: string;
+    startTime: string;
+  };
+  weather?: {
+    temperature: string;
+    skyCondition: SkyCondition;
+    precipitationType: PrecipitationType;
+    precipitationProbability: string;
+  };
 };
 
-function DayCard({
-  date,
-  fieldName,
-  startTime,
-  temp,
-  skyCondition,
-  precipitationType,
-  precipitationProbability,
-}: DayCardProps) {
+function DayCard({ stadium, game, weather }: DayCardProps) {
   return (
     <div
       css={css({
@@ -45,7 +43,7 @@ function DayCard({
         })}
       >
         <div css={css({ display: 'flex', flexDirection: 'column', gap: '4px' })}>
-          <span css={css({ display: 'block', fontWeight: 'bold' })}>{date}</span>
+          <span css={css({ display: 'block', fontWeight: 'bold' })}>{game.date}</span>
           <span
             css={css({
               display: 'block',
@@ -55,9 +53,9 @@ function DayCard({
               whiteSpace: 'nowrap',
             })}
           >
-            {fieldName}
+            {stadium.name}
           </span>
-          <span css={css({ display: 'block', fontSize: '18px', fontWeight: 'bold' })}>{startTime}</span>
+          <span css={css({ display: 'block', fontSize: '18px', fontWeight: 'bold' })}>{game.startTime}</span>
         </div>
         <div
           css={css({
@@ -71,7 +69,7 @@ function DayCard({
             fontWeight: 'bold',
           })}
         >
-          {precipitationProbability ? `강수 확률 ${precipitationProbability}%` : ''}
+          {weather?.precipitationProbability ? `강수 확률 ${weather.precipitationProbability}%` : ''}
         </div>
       </div>
       <div
@@ -82,8 +80,16 @@ function DayCard({
           flex: 1,
         })}
       >
-        <img src={skyCondition && precipitationType ? getWeatherIconSrc(skyCondition, precipitationType) : ''} />
-        <span css={css({ display: 'block', fontSize: '30px', fontWeight: 'bold' })}>{temp ? `${temp}℃` : ''}</span>
+        <img
+          src={
+            weather?.skyCondition && weather?.precipitationType
+              ? getWeatherIconSrc(weather.skyCondition, weather.precipitationType)
+              : ''
+          }
+        />
+        <span css={css({ display: 'block', fontSize: '30px', fontWeight: 'bold' })}>
+          {weather?.temperature ? `${weather.temperature}℃` : ''}
+        </span>
       </div>
     </div>
   );
