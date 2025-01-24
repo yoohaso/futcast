@@ -1,28 +1,32 @@
-import { useEffect, useState } from 'react';
 import { Match } from '../api/types';
 import { fetchMatches } from '../api/match';
 
-function useMatches(): [Match[], boolean, Error | null] {
-  const [matches, setMatches] = useState<Match[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
+let matchesData: Match[] | null = null;
+let matchesError: Error | null = null;
+let matchesPromise: Promise<void> | null = null;
 
-  useEffect(() => {
-    async function storeMatches() {
-      try {
-        const result = await fetchMatches();
-        setMatches(result);
-      } catch (err) {
-        setError(err as Error);
-      } finally {
-        setIsLoading(false);
-      }
+function useMatches() {
+  if (matchesError) {
+    throw matchesError;
+  }
+
+  if (!matchesData) {
+    if (!matchesPromise) {
+      matchesPromise = fetchMatches()
+        .then(data => {
+          matchesData = data;
+          matchesPromise = null;
+        })
+        .catch(error => {
+          matchesError = error;
+          matchesPromise = null;
+        });
     }
 
-    storeMatches();
-  }, []);
+    throw matchesPromise;
+  }
 
-  return [matches, isLoading, error];
+  return matchesData;
 }
 
 export default useMatches;
