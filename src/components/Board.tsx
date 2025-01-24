@@ -4,25 +4,13 @@ import { useMemo, useState } from 'react';
 import useWeather from '../hooks/useWeather';
 import DayCard from './DayCard';
 import { formatDate, formatTime, getWeatherIconSrc } from '../utils';
-import Modal from './Modal';
-import { Clock, CloudRain, Droplets, ExternalLink, MapPin, ThermometerSun } from 'lucide-react';
+import Modal from './modal/Modal';
+import StadiumWeather from './modal/StadiumWeather';
+import { ModalData } from '../types/modal';
 
 type ClickableProps = {
   onClick: () => void;
   children: React.ReactNode;
-};
-
-type ModalData = {
-  temperature?: string;
-  precipitationProbability?: string;
-  precipitation?: string;
-  date: string;
-  startTime: string;
-  address: string;
-  weatherIconSrc: string;
-  plabfootballLink: string | null;
-  weatherLink: string;
-  fieldName: string;
 };
 
 function Clickable({ onClick, children }: ClickableProps) {
@@ -107,16 +95,27 @@ function Board() {
               })}
             >
               {otherMatches.map(match => {
-                const matchWeather = weather?.find(ele => ele.datetime === match.schedule);
+                const matchWeather = weather.find(ele => ele.datetime === match.schedule);
+
+                if (!matchWeather) {
+                  return (
+                    <DayCard
+                      key={match.id}
+                      date={formatDate(match.schedule)}
+                      fieldName={match.field.name}
+                      startTime={formatTime(match.schedule)}
+                    />
+                  );
+                }
 
                 return (
                   <Clickable
                     key={match.id}
                     onClick={() =>
                       handleCardClick({
-                        temperature: matchWeather?.temperature.value,
-                        precipitation: matchWeather?.precipitation.value,
-                        precipitationProbability: matchWeather?.precipitationProbability.value,
+                        temperature: matchWeather.temperature.value,
+                        precipitation: matchWeather.precipitation.value,
+                        precipitationProbability: matchWeather.precipitationProbability.value,
                         date: formatDate(match.schedule),
                         startTime: formatTime(match.schedule),
                         fieldName: match.field.name,
@@ -145,134 +144,19 @@ function Board() {
           </>
         )}
       </div>
-      {showModal && (
+      {showModal && modalData && (
         <Modal onClose={() => setShowModal(false)}>
-          <div css={css({ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' })}>
-            <div
-              css={css({
-                display: 'flex',
-                height: '100px',
-                backgroundColor: '#070c25',
-                padding: '15px 10px 20px 15px',
-                justifyContent: 'space-between',
-                alignItems: 'flex-end',
-              })}
-            >
-              <div>
-                <span css={css({ display: 'block', fontWeight: 'bold', fontSize: '20px', color: '#ffffff' })}>
-                  {modalData?.fieldName}
-                </span>
-                <div css={css({ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '5px' })}>
-                  <Clock color="#ffffff" size={15} />
-                  <span
-                    css={css({ display: 'block', fontSize: '15px', color: '#ffffff' })}
-                  >{`${modalData?.startTime} 시작`}</span>
-                </div>
-              </div>
-              <img css={css({ width: '70px', height: '70px' })} src={modalData?.weatherIconSrc} alt="weather_icon" />
-            </div>
-            <div
-              css={css({
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: '20px',
-                backgroundColor: '#ffffff',
-              })}
-            >
-              <div
-                css={css({
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                })}
-              >
-                <div css={css({ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '15px' })}>
-                  <MapPin size={14} />
-                  <span css={css({ display: 'block', fontSize: '14px' })}>{modalData?.address}</span>
-                </div>
-                <div css={css({ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' })}>
-                  <div
-                    css={css({
-                      display: 'flex',
-                      boxSizing: 'border-box',
-                      width: '45%',
-                      height: '70px',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      gap: '8px',
-                      backgroundColor: '#f5f5f5',
-                    })}
-                  >
-                    <div css={css({ display: 'flex', alignItems: 'center', gap: '5px' })}>
-                      <ThermometerSun size={14} />
-                      <span css={css({ display: 'block', fontSize: '12px' })}>기온</span>
-                    </div>
-                    <span
-                      css={css({ display: 'block', fontSize: '17px', fontWeight: 'bold' })}
-                    >{`${modalData?.temperature}도`}</span>
-                  </div>
-                  <div
-                    css={css({
-                      display: 'flex',
-                      boxSizing: 'border-box',
-                      width: '45%',
-                      height: '70px',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      gap: '8px',
-                      backgroundColor: '#f5f5f5',
-                    })}
-                  >
-                    <div css={css({ display: 'flex', alignItems: 'center', gap: '5px' })}>
-                      <CloudRain size={14} />
-                      <span css={css({ display: 'block', fontSize: '12px' })}>강수확률</span>
-                    </div>
-                    <span
-                      css={css({ display: 'block', fontSize: '17px', fontWeight: 'bold' })}
-                    >{`${modalData?.precipitationProbability}%`}</span>
-                  </div>
-                </div>
-                <div css={css({ display: 'flex', alignItems: 'center', gap: '5px' })}>
-                  <Droplets size={14} />
-                  <span
-                    css={css({ display: 'block', fontSize: '14px' })}
-                  >{`강수량 ${modalData?.precipitation}mm`}</span>
-                </div>
-              </div>
-              <hr
-                css={css({
-                  width: '100%',
-                  border: 'none',
-                  height: '0.5px',
-                  backgroundColor: 'black',
-                  margin: '20px 0',
-                })}
-              />
-              <div css={css({ display: 'flex', justifyContent: 'space-between' })}>
-                {modalData?.plabfootballLink && (
-                  <a
-                    css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
-                    href={modalData.plabfootballLink}
-                  >
-                    플랩풋볼
-                    <ExternalLink size={13} />
-                  </a>
-                )}
-                <a
-                  css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
-                  href={modalData?.weatherLink}
-                >
-                  상세날씨
-                  <ExternalLink size={13} />
-                </a>
-              </div>
-            </div>
-          </div>
+          <StadiumWeather
+            stadium={{ address: modalData.address, name: modalData.fieldName }}
+            game={{ date: modalData.date, startTime: modalData.startTime, gameLink: modalData.plabfootballLink }}
+            weather={{
+              temperature: modalData.temperature,
+              precipitationProbability: modalData.precipitationProbability,
+              precipitation: modalData.precipitation,
+              weatherLink: modalData.weatherLink,
+              weatherIconSrc: modalData.weatherIconSrc,
+            }}
+          />
         </Modal>
       )}
     </>
