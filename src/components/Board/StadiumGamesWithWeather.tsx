@@ -1,12 +1,10 @@
 import { useMemo, useState } from 'react';
 import { Match } from '../../api/types';
 import useWeather from '../../hooks/useWeather';
-import { ModalData } from '../../types/modal';
-import { formatDate, formatTime, getWeatherIconSrc } from '../../utils';
+import { formatDate, formatTime } from '../../utils';
 import DayCard from '../DayCard';
 import { css } from '@emotion/react';
-import Modal from '../modal/Modal';
-import StadiumWeather from '../modal/StadiumWeather';
+import { StadiumWeatherModal } from '../modal/StadiumWeatherModal';
 
 type ClickableProps = {
   onClick: () => void;
@@ -22,8 +20,7 @@ type StadiumGamesWithWeatherProps = {
 };
 
 export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProps) {
-  const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState<ModalData | null>(null);
+  const [selectedMatchId, setSelectedMatchId] = useState<number | null>(null);
 
   const locations = useMemo(
     () =>
@@ -37,9 +34,8 @@ export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProp
 
   const weather = useWeather({ locations });
 
-  const handleCardClick = (data: ModalData) => {
-    setShowModal(true);
-    setModalData(data);
+  const handleCardClick = (matchId: number) => {
+    setSelectedMatchId(matchId);
   };
 
   const upcomingMatch = matches[0];
@@ -48,25 +44,7 @@ export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProp
 
   return (
     <>
-      <Clickable
-        onClick={() =>
-          handleCardClick({
-            temperature: upcomingMatchWeather.temperature.value,
-            precipitation: upcomingMatchWeather.precipitation.value,
-            precipitationProbability: upcomingMatchWeather.precipitationProbability.value,
-            date: formatDate(upcomingMatch.schedule),
-            startTime: formatTime(upcomingMatch.schedule),
-            fieldName: upcomingMatch.field.name,
-            address: upcomingMatch.field.address,
-            plabfootballLink: upcomingMatch.plabfootballLink,
-            weatherLink: upcomingMatch.field.weatherLink,
-            weatherIconSrc: getWeatherIconSrc(
-              upcomingMatchWeather.skyCondition.value,
-              upcomingMatchWeather.precipitationType.value
-            ),
-          })
-        }
-      >
+      <Clickable onClick={() => handleCardClick(upcomingMatch.id)}>
         <DayCard
           stadium={{ name: upcomingMatch.field.name }}
           game={{ date: formatDate(upcomingMatch.schedule), startTime: formatTime(upcomingMatch.schedule) }}
@@ -101,25 +79,7 @@ export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProp
           }
 
           return (
-            <Clickable
-              key={match.id}
-              onClick={() =>
-                handleCardClick({
-                  temperature: matchWeather.temperature.value,
-                  precipitation: matchWeather.precipitation.value,
-                  precipitationProbability: matchWeather.precipitationProbability.value,
-                  date: formatDate(match.schedule),
-                  startTime: formatTime(match.schedule),
-                  fieldName: match.field.name,
-                  address: match.field.address,
-                  plabfootballLink: match.plabfootballLink,
-                  weatherLink: match.field.weatherLink,
-                  weatherIconSrc: matchWeather
-                    ? getWeatherIconSrc(matchWeather.skyCondition.value, matchWeather.precipitationType.value)
-                    : '',
-                })
-              }
-            >
+            <Clickable key={match.id} onClick={() => handleCardClick(match.id)}>
               <DayCard
                 stadium={{ name: match.field.name }}
                 game={{ date: formatDate(match.schedule), startTime: formatTime(match.schedule) }}
@@ -134,20 +94,13 @@ export function StadiumGamesWithWeather({ matches }: StadiumGamesWithWeatherProp
           );
         })}
       </div>
-      {showModal && modalData && (
-        <Modal onClose={() => setShowModal(false)}>
-          <StadiumWeather
-            stadium={{ address: modalData.address, name: modalData.fieldName }}
-            game={{ date: modalData.date, startTime: modalData.startTime, gameLink: modalData.plabfootballLink }}
-            weather={{
-              temperature: modalData.temperature,
-              precipitationProbability: modalData.precipitationProbability,
-              precipitation: modalData.precipitation,
-              weatherLink: modalData.weatherLink,
-              weatherIconSrc: modalData.weatherIconSrc,
-            }}
-          />
-        </Modal>
+      {selectedMatchId && (
+        <StadiumWeatherModal
+          matchId={selectedMatchId}
+          matches={matches}
+          weather={weather}
+          onClose={() => setSelectedMatchId(null)}
+        />
       )}
     </>
   );
