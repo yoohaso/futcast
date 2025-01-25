@@ -114,7 +114,11 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
         />
         <div css={css({ display: 'flex', justifyContent: 'space-between' })}>
           {game.gameLink && (
-            <a css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })} href={game.gameLink}>
+            <a
+              css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
+              href={game.gameLink}
+              target="_blank"
+            >
               플랩풋볼
               <ExternalLink size={13} />
             </a>
@@ -122,6 +126,7 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
           <a
             css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
             href={weather.weatherLink}
+            target="_blank"
           >
             상세날씨
             <ExternalLink size={13} />
