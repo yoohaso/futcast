@@ -7,6 +7,14 @@ type ModalProps = {
 };
 
 function Modal({ onClose, children }: ModalProps) {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+
+    onClose();
+  };
+
   return createPortal(
     <div
       css={css({
@@ -16,9 +24,8 @@ function Modal({ onClose, children }: ModalProps) {
         width: '100vw',
         height: '100vh',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 1000,
       })}
-      onClick={onClose}
+      onClick={handleClick}
     >
       <div
         css={css({
