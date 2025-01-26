@@ -118,6 +118,7 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
               css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
               href={game.gameLink}
               target="_blank"
+              rel="noopener noreferrer"
             >
               플랩풋볼
               <ExternalLink size={13} />
@@ -127,6 +128,7 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
             css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
             href={weather.weatherLink}
             target="_blank"
+            rel="noopener noreferrer"
           >
             상세날씨
             <ExternalLink size={13} />
