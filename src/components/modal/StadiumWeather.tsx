@@ -115,7 +115,15 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
         <div css={css({ display: 'flex', justifyContent: 'space-between' })}>
           {game.gameLink && (
             <a
-              css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
+              css={css({
+                display: 'flex',
+                gap: '5px',
+                alignItems: 'center',
+                fontSize: '14px',
+                textDecoration: 'none',
+                color: '#000000',
+                '&:visited': { color: '#2f2121' },
+              })}
               href={game.gameLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -125,7 +133,15 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
             </a>
           )}
           <a
-            css={css({ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '14px' })}
+            css={css({
+              display: 'flex',
+              gap: '5px',
+              alignItems: 'center',
+              fontSize: '14px',
+              textDecoration: 'none',
+              color: '#000000',
+              '&:visited': { color: '#2f2121' },
+            })}
             href={weather.weatherLink}
             target="_blank"
             rel="noopener noreferrer"
