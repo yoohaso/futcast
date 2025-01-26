@@ -17,8 +17,8 @@ function useWeather({ locations }: UseWeatherProps): Weather[] {
   if (!weatherData) {
     if (!weatherPromise) {
       weatherPromise = fetchWeather({ locations })
-        .then(data => {
-          weatherData = data;
+        .then(response => {
+          weatherData = response.data?.weather ?? [];
           weatherPromise = null;
         })
         .catch(error => {
