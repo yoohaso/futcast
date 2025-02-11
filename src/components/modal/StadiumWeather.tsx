@@ -100,7 +100,9 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
           </div>
           <div css={css({ display: 'flex', alignItems: 'center', gap: '5px' })}>
             <Droplets size={14} />
-            <span css={css({ display: 'block', fontSize: '14px' })}>{`강수량 ${weather.precipitation}mm`}</span>
+            <span css={css({ display: 'block', fontSize: '14px' })}>
+              {weather.precipitation === '강수없음' ? weather.precipitation : `강수량 ${weather.precipitation}mm`}
+            </span>
           </div>
         </div>
         <hr
