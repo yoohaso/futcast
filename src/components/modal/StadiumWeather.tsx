@@ -98,10 +98,12 @@ function StadiumWeather({ stadium, game, weather }: StadiumWeatherProps) {
               >{`${weather.precipitationProbability}%`}</span>
             </div>
           </div>
-          <div css={css({ display: 'flex', alignItems: 'center', gap: '5px' })}>
-            <Droplets size={14} />
-            <span css={css({ display: 'block', fontSize: '14px' })}>{`강수량 ${weather.precipitation}mm`}</span>
-          </div>
+          {weather.precipitation !== '강수없음' && weather.precipitation !== '0' && (
+            <div css={css({ display: 'flex', alignItems: 'center', gap: '5px' })}>
+              <Droplets size={14} />
+              <span css={css({ display: 'block', fontSize: '14px' })}>{`강수량 ${weather.precipitation}mm`}</span>
+            </div>
+          )}
         </div>
         <hr
           css={css({
